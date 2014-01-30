@@ -5,15 +5,19 @@ group = 'com.nflabs.zeppelin'
 version = '0.3.0-SNAPSHOT'
 
 // additional properties
-zengineVersion = "0.3.0-SNAPSHOT"
-elasticsearchVersion = '0.90.10'
+ext {
+    zengineVersion = "0.3.0-SNAPSHOT"
+    elasticsearchVersion = '0.90.10'
+}
 
 repositories {
     mavenLocal()
     mavenCentral()
 
     // use Zengine in snapshot library
-    mavenRepo urls: 'http://oss.sonatype.org/content/repositories/snapshots'
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
 }
 
 configurations {
