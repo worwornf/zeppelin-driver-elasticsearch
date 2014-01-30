@@ -9,7 +9,15 @@ zeppelin-driver-elasticsearch
 mvn package
 ```
 
+or
+
+```
+gradle build
+```
+
 As a result, _elasticsearch_ dir will be created under target directory.
+
+(gradle generate driver under build/libs directory)
 
 ### Install driver
 
