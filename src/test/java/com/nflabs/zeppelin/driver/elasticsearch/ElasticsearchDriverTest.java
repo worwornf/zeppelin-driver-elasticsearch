@@ -65,7 +65,7 @@ public class ElasticsearchDriverTest {
                 data1.put("age", 10);
                 
                 Map<String, Object> data2 = new HashMap<String, Object>();
-                data2.put("name", "oragne");
+                data2.put("name", "orange");
                 data2.put("age", 20);
                 client.prepareIndex("index1", "type1").setSource(data1).setRefresh(true).execute().actionGet();
                 client.prepareIndex("index1", "type1").setSource(data2).setRefresh(true).execute().actionGet();

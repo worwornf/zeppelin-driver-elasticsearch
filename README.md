@@ -1,7 +1,10 @@
 zeppelin-driver-elasticsearch
 =============================
 
+[![Build Status](https://travis-ci.org/NFLabs/zeppelin-driver-elasticsearch.png?branch=master)](https://travis-ci.org/NFLabs/zeppelin-driver-elasticsearch)
+
 [Zeppelin](http://zeppelin-project.org) Elasticsearch Driver
+
 
 ### Build
 
@@ -9,7 +12,15 @@ zeppelin-driver-elasticsearch
 mvn package
 ```
 
+or
+
+```
+gradle build
+```
+
 As a result, _elasticsearch_ dir will be created under target directory.
+
+(gradle generate driver under build/libs directory)
 
 ### Install driver
 

@@ -1,0 +1,57 @@
+apply plugin: 'java'
+
+// Artifact information
+group = 'com.nflabs.zeppelin'
+version = '0.3.0-SNAPSHOT'
+
+// additional properties
+ext {
+    zengineVersion = "0.3.0-SNAPSHOT"
+    elasticsearchVersion = '0.90.10'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    // use Zengine in snapshot library
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+configurations {
+    pkg {
+        transitive = true
+    }
+}
+
+dependencies {
+    // Zengine
+    compile "com.nflabs.zeppelin:zeppelin-zengine:$zengineVersion"
+
+    // Elasticserach
+    testCompile "org.elasticsearch:elasticsearch:$elasticsearchVersion"
+
+    // commons io
+    compile "commons-io:commons-io:2.4"
+    pkg "commons-io:commons-io:2.4"
+
+    // http client
+    compile "org.apache.httpcomponents:httpclient:4.3.1"
+    pkg "org.apache.httpcomponents:httpclient:4.3.1"
+    
+    // gson
+    compile "com.google.code.gson:gson:2.1"
+    pkg "com.google.code.gson:gson:2.1"
+
+    // junit
+    testCompile group: "junit", name: "junit", version: "4.11"
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from configurations.pkg
+}
+
+build.dependsOn(copyToLib)
