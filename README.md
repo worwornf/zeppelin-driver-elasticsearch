@@ -1,7 +1,10 @@
 zeppelin-driver-elasticsearch
 =============================
 
+[![Build Status](https://travis-ci.org/NFLabs/zeppelin-driver-elasticsearch.png?branch=master)](https://travis-ci.org/NFLabs/zeppelin-driver-elasticsearch)
+
 [Zeppelin](http://zeppelin-project.org) Elasticsearch Driver
+
 
 ### Build
 
