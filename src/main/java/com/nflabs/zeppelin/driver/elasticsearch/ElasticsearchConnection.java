@@ -56,6 +56,7 @@ public class ElasticsearchConnection implements ZeppelinConnection {
 
         @Override
         public Result query(String query) throws ZeppelinDriverException {
+        		query = query.trim();
                 Pattern pattern = Pattern.compile("([^ ]*)\\s([^ ]*)\\s([^ ]*)\\s([^ ]*)(\\s(.*))?");
                 Matcher matcher = pattern.matcher(query);
                 if (matcher.find()==false) {

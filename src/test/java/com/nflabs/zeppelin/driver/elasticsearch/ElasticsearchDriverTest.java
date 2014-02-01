@@ -70,7 +70,7 @@ public class ElasticsearchDriverTest {
                 client.prepareIndex("index1", "type1").setSource(data1).setRefresh(true).execute().actionGet();
                 client.prepareIndex("index1", "type1").setSource(data2).setRefresh(true).execute().actionGet();
                 
-                Result result = conn.query("POST /index1/type1/_search /hits/hits /_source {\"query\":{\"query_string\":{\"query\":\"*\"}}}");
+                Result result = conn.query("\nPOST /index1/type1/_search /hits/hits /_source {\"query\":{\"query_string\":{\"query\":\"*\"}}}");
                 assertEquals(2, result.getRows().size());                                
         }
 
