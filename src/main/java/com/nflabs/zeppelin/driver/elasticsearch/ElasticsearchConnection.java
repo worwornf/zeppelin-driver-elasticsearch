@@ -57,6 +57,7 @@ public class ElasticsearchConnection implements ZeppelinConnection {
         @Override
         public Result query(String query) throws ZeppelinDriverException {
         		query = query.trim();
+        		query = query.replaceAll("\n", " ");
                 Pattern pattern = Pattern.compile("([^ ]*)\\s([^ ]*)\\s([^ ]*)\\s([^ ]*)(\\s(.*))?");
                 Matcher matcher = pattern.matcher(query);
                 if (matcher.find()==false) {
@@ -119,7 +120,6 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                 
                 Gson gson = new Gson();
                 HashMap<String, Object> responseJson = gson.fromJson(new InputStreamReader(ins), new HashMap<String, Object>().getClass());
-                dumpJson(responseJson);
                 
                 // { hists : "hits" : [ { "_source" : { OBJ } } ] }
                 ESResult result = null;
@@ -143,7 +143,6 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                                                 rowData[i] = columns.get(c.getName());
                                         }
                                         result.addRow(rowData);
-                                        dumpJson(columns);
                                 } else {
                                         throw new ZeppelinDriverException("Can not find object under "+docBase);
                                 }
