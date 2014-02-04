@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.nflabs.zeppelin.conf.ZeppelinConfiguration;
+import com.nflabs.zeppelin.driver.ZeppelinConnection;
 import com.nflabs.zeppelin.result.ColumnDef;
 import com.nflabs.zeppelin.result.Result;
 
@@ -43,15 +44,18 @@ public class ElasticsearchDriverTest {
         }
 
         private ElasticsearchDriver driver;
+		private ZeppelinConnection conn;
         
         @Before
         public void setUp() throws Exception {
-                driver = new ElasticsearchDriver(ZeppelinConfiguration.create(), new URI("es://localhost:9200"), Thread.currentThread().getContextClassLoader());
+                driver = new ElasticsearchDriver();
+                driver.init();
+                conn = driver.getConnection("es://localhost:9200");
         }
 
         @After
         public void tearDown() throws Exception {
-                driver.close();
+                conn.close();
         }
 
         @Test
@@ -66,7 +70,7 @@ public class ElasticsearchDriverTest {
                 client.prepareIndex("index1", "type1").setSource(data1).setRefresh(true).execute().actionGet();
                 client.prepareIndex("index1", "type1").setSource(data2).setRefresh(true).execute().actionGet();
                 
-                Result result = driver.query("POST /index1/type1/_search /hits/hits /_source {\"query\":{\"query_string\":{\"query\":\"*\"}}}");
+                Result result = conn.query("\nPOST /index1/type1/_search /hits/hits /_source {\"query\":{\"query_string\":{\"query\":\"*\"}}}");
                 assertEquals(2, result.getRows().size());                                
         }
 
@@ -82,7 +86,7 @@ public class ElasticsearchDriverTest {
                 client.prepareIndex("index1", "type1").setSource(data1).setRefresh(true).execute().actionGet();
                 client.prepareIndex("index1", "type1").setSource(data2).setRefresh(true).execute().actionGet();
                 
-                Result result = driver.query("POST /index1/type1/_search /facets/stat1 / {\"query\":{\"query_string\":{\"query\":\"*\"}},\"facets\":{\"stat1\":{\"statistical\":{\"field\":\"age\"}}}}");
+                Result result = conn.query("POST /index1/type1/_search /facets/stat1 / {\"query\":{\"query_string\":{\"query\":\"*\"}},\"facets\":{\"stat1\":{\"statistical\":{\"field\":\"age\"}}}}");
                 ColumnDef[] columnDef = result.getColumnDef();
                 assertEquals(9, columnDef.length);
                 

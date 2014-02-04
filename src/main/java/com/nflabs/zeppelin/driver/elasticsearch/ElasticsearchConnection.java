@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,10 +35,10 @@ import com.nflabs.zeppelin.result.Result;
 
 public class ElasticsearchConnection implements ZeppelinConnection {
 
-        private URI connectionUri;
+        private String connectionUrl;
 
-        public ElasticsearchConnection(URI connectionUri) {
-                this.connectionUri = connectionUri;
+        public ElasticsearchConnection(String connectionUrl) {
+                this.connectionUrl = connectionUrl;
         }
 
         @Override
@@ -55,6 +56,8 @@ public class ElasticsearchConnection implements ZeppelinConnection {
 
         @Override
         public Result query(String query) throws ZeppelinDriverException {
+        		query = query.trim();
+        		query = query.replaceAll("\n", " ");
                 Pattern pattern = Pattern.compile("([^ ]*)\\s([^ ]*)\\s([^ ]*)\\s([^ ]*)(\\s(.*))?");
                 Matcher matcher = pattern.matcher(query);
                 if (matcher.find()==false) {
@@ -72,9 +75,15 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                 if (path.startsWith("/")==false) {
                         path = "/"+path;
                 }
-                
+
+                URI uri;
+				try {
+					uri = new URI(connectionUrl);
+				} catch (URISyntaxException e1) {
+					throw new ZeppelinDriverException(e1);
+				}
                 CloseableHttpClient client = HttpClients.createDefault();
-                String url = "http://"+connectionUri.getHost()+":"+connectionUri.getPort()+path;
+                String url = "http://"+uri.getHost()+":"+uri.getPort()+path;
 
                 HttpUriRequest request = null;
                 if ("GET".compareToIgnoreCase(method)==0) {
@@ -111,7 +120,6 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                 
                 Gson gson = new Gson();
                 HashMap<String, Object> responseJson = gson.fromJson(new InputStreamReader(ins), new HashMap<String, Object>().getClass());
-                dumpJson(responseJson);
                 
                 // { hists : "hits" : [ { "_source" : { OBJ } } ] }
                 ESResult result = null;
@@ -135,7 +143,6 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                                                 rowData[i] = columns.get(c.getName());
                                         }
                                         result.addRow(rowData);
-                                        dumpJson(columns);
                                 } else {
                                         throw new ZeppelinDriverException("Can not find object under "+docBase);
                                 }
@@ -233,33 +240,28 @@ public class ElasticsearchConnection implements ZeppelinConnection {
         @Override
         public Result select(String tableName, int limit)
                         throws ZeppelinDriverException {
-                // TODO Auto-generated method stub
                 return null;
         }
 
         @Override
         public Result createViewFromQuery(String viewName, String query)
                         throws ZeppelinDriverException {
-                // TODO Auto-generated method stub
                 return null;
         }
 
         @Override
         public Result createTableFromQuery(String tableName, String query)
                         throws ZeppelinDriverException {
-                // TODO Auto-generated method stub
                 return null;
         }
 
         @Override
         public Result dropView(String viewName) throws ZeppelinDriverException {
-                // TODO Auto-generated method stub
                 return null;
         }
 
         @Override
         public Result dropTable(String tableName) throws ZeppelinDriverException {
-                // TODO Auto-generated method stub
                 return null;
         }
 

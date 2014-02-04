@@ -28,8 +28,8 @@ copy _elasticsearch_ dir under target directory to Zeppelin driver directory.
 
 ### Configuration
 
-in zeppelin.drivers property, add driver uri like
+in zeppelin.drivers property, add driver uri like [NAME]:es://[ES_ADDR]:[PORT]
 
 ```
-es:elasticsearch:com.nflabs.zeppelin.driver.elasticsearch.ElasticsearchDriver:es://[ES_ADDR]:9200
+es:es://localhost:9200
 ```
