@@ -2,11 +2,11 @@ apply plugin: 'java'
 
 // Artifact information
 group = 'com.nflabs.zeppelin'
-version = '0.3.0-SNAPSHOT'
+version = '0.3.0'
 
 // additional properties
 ext {
-    zengineVersion = "0.3.0-SNAPSHOT"
+    zengineVersion = "0.3.0"
     elasticsearchVersion = '0.90.10'
 }
 
@@ -15,9 +15,9 @@ repositories {
     mavenCentral()
 
     // use Zengine in snapshot library
-    maven {
-        url 'http://oss.sonatype.org/content/repositories/snapshots'
-    }
+    //maven {
+    //    url 'http://oss.sonatype.org/content/repositories/snapshots'
+    //}
 }
 
 configurations {
