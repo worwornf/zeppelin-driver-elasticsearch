@@ -124,7 +124,7 @@
     </plugins>
   </build>
   <repositories>
-    <repository>
+    <!-- repository>
       <id>oss.sonatype.org-snapshot</id>
       <url>http://oss.sonatype.org/content/repositories/snapshots</url>
       <releases>
@@ -133,6 +133,6 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-    </repository>
+    </repository -->
   </repositories>
 </project>
