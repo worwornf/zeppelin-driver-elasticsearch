@@ -19,8 +19,10 @@ import java.util.regex.Pattern;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -99,6 +101,19 @@ public class ElasticsearchConnection implements ZeppelinConnection {
                                 }
                         }
                         request = post;
+                } else if ("PUT".compareToIgnoreCase(method)==0) {
+                    HttpPut put = new HttpPut(url);
+                    if (payload!=null) {
+                            try {
+                                    put.setEntity(new StringEntity(payload));
+                            } catch (UnsupportedEncodingException e) {
+                                    throw new ZeppelinDriverException(e);
+                            }
+                    }
+                    request = put;
+                } else if ("DELETE".compareToIgnoreCase(method)==0) {
+                    HttpDelete delete = new HttpDelete(url);
+                    request = delete;
                 } else {
                         throw new ZeppelinDriverException("Unsupported method "+method);
                 }
