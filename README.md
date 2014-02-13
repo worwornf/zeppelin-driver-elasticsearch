@@ -24,7 +24,7 @@ As a result, _elasticsearch_ dir will be created under target directory.
 
 ### Install driver
 
-copy _elasticsearch_ dir under target directory to Zeppelin driver directory.
+copy the generated _elasticsearch_ dir in Zeppelin project, under driver directory.
 
 ### Configuration
 
